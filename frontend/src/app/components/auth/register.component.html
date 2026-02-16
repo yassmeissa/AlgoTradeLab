@@ -1,0 +1,71 @@
+<div class="auth-container">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo">₿</div>
+        <h1>Join AlgoTrade</h1>
+        <p>Create your trading strategy account</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <label>Username</label>
+          <input 
+            type="text" 
+            formControlName="username"
+            placeholder="Choose a username"
+            class="form-input"
+          />
+          <span *ngIf="registerForm.get('username')?.hasError('required') && registerForm.get('username')?.touched" class="error-msg">
+            Username is required
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input 
+            type="email" 
+            formControlName="email"
+            placeholder="your@email.com"
+            class="form-input"
+          />
+          <span *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched" class="error-msg">
+            Email is required
+          </span>
+          <span *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched" class="error-msg">
+            Enter a valid email
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input 
+            type="password" 
+            formControlName="password"
+            placeholder="At least 8 characters"
+            class="form-input"
+          />
+          <span *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched" class="error-msg">
+            Password is required
+          </span>
+          <span *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched" class="error-msg">
+            Password must be at least 8 characters
+          </span>
+        </div>
+
+        <span *ngIf="errorMessage" class="error-banner">{{ errorMessage }}</span>
+        <span *ngIf="successMessage" class="success-banner">{{ successMessage }}</span>
+
+        <button type="submit" class="btn-submit" [disabled]="!registerForm.valid">
+          {{ isLoading ? 'Creating account...' : 'Create Account' }}
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Already have an account? <a routerLink="/login" class="link">Sign in</a></p>
+      </div>
+    </div>
+
+    <div class="auth-background"></div>
+  </div>
+</div>

@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     
     # Database
-    database_url: str = Field(default="postgresql://user:password@localhost:5432/algotrade_db")
+    database_url: str = Field(default="postgresql://algotrade:algotrade_password@localhost:5432/algotrade_db")
     
     # JWT/Security
     secret_key: str = Field(default="your-secret-key-change-in-production")

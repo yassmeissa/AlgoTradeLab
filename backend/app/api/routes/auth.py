@@ -1,6 +1,6 @@
 """Authentication routes"""
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.db.database import get_db
@@ -21,8 +21,13 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=TokenResponse)
 def login(login_data: UserLogin, db: Session = Depends(get_db)):
-    """Login user"""
-    user = UserService.authenticate_user(db, login_data.email, login_data.password)
+    """Login user with email or username"""
+    user = UserService.authenticate_user(
+        db, 
+        email=login_data.email,
+        username=login_data.username,
+        password=login_data.password
+    )
     
     access_token = create_access_token(
         data={"user_id": user.id, "email": user.email},
@@ -36,10 +41,17 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
 
 
 @router.get("/me", response_model=UserResponse)
-def get_current_user(token: str, db: Session = Depends(get_db)):
+def get_current_user(authorization: str = Header(None), db: Session = Depends(get_db)):
     """Get current user info"""
     from app.core.security import decode_token
     
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing or invalid authorization header"
+        )
+    
+    token = authorization.split(" ")[1]
     payload = decode_token(token)
     if not payload:
         raise HTTPException(

@@ -42,6 +42,30 @@ def get_current_user_id(authorization: str = Header(None), db: Session = Depends
     return user.id
 
 
+@router.get("/", response_model=List[BacktestResultResponse])
+def list_user_backtests(
+    user_id: int = Depends(get_current_user_id),
+    db: Session = Depends(get_db)
+):
+    """List all backtests for current user"""
+    from app.models.backtest_result import BacktestResult
+    from app.models.strategy import Strategy
+    
+    results = db.query(BacktestResult).filter(
+        BacktestResult.strategy.has(Strategy.user_id == user_id)
+    ).all()
+    
+    import json
+    result_list = []
+    for result in results:
+        result_dict = result.__dict__.copy()
+        result_dict["trades"] = json.loads(result.trades) if result.trades else []
+        result_dict["equity_curve"] = json.loads(result.equity_curve) if result.equity_curve else []
+        result_list.append(result_dict)
+    
+    return result_list
+
+
 @router.post("/run", response_model=BacktestResultResponse)
 def run_backtest(
     request: BacktestRequest,

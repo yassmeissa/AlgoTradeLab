@@ -1,6 +1,6 @@
 """User schemas"""
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, model_validator
 from datetime import datetime
 from typing import Optional
 
@@ -15,8 +15,19 @@ class UserCreate(BaseModel):
 
 class UserLogin(BaseModel):
     """User login schema"""
-    email: EmailStr
+    email: Optional[str] = None
+    username: Optional[str] = None
     password: str
+    
+    @model_validator(mode='after')
+    def check_email_or_username(self):
+        """Ensure at least email or username is provided"""
+        if not self.email and not self.username:
+            raise ValueError('Either email or username must be provided')
+        return self
+        if self.email and self.username:
+            # If both provided, clear one (prioritize username)
+            self.email = None
 
 
 class UserUpdate(BaseModel):

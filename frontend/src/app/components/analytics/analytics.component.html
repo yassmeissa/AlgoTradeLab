@@ -1,0 +1,46 @@
+<div class="analytics-container">
+  <h1>Analytics & Reports</h1>
+
+  <div class="filters">
+    <button 
+      *ngFor="let period of periods"
+      (click)="selectPeriod(period)"
+      [class.active]="selectedPeriod === period"
+      class="period-btn"
+    >
+      {{ period }}
+    </button>
+  </div>
+
+  <div class="stats-section">
+    <h2>Overall Statistics</h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <h3>Total Backtests</h3>
+        <p class="stat-value">{{ backtests.length }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Avg ROI</h3>
+        <p class="stat-value" [ngClass]="{ positive: getAverageROI() > 0 }">
+          {{ getAverageROI() | number: '1.2-2' }}%
+        </p>
+      </div>
+      <div class="stat-box">
+        <h3>Best ROI</h3>
+        <p class="stat-value positive">{{ getBestROI() | number: '1.2-2' }}%</p>
+      </div>
+      <div class="stat-box">
+        <h3>Avg Win Rate</h3>
+        <p class="stat-value">{{ getAverageWinRate() | number: '1.2-2' }}%</p>
+      </div>
+      <div class="stat-box">
+        <h3>Avg Sharpe Ratio</h3>
+        <p class="stat-value">{{ getAverageSharpe() | number: '1.2-2' }}</p>
+      </div>
+      <div class="stat-box">
+        <h3>Avg Max Drawdown</h3>
+        <p class="stat-value negative">{{ getAverageDrawdown() | number: '1.2-2' }}%</p>
+      </div>
+    </div>
+  </div>
+</div>

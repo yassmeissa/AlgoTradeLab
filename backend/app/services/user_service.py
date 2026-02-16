@@ -44,6 +44,11 @@ class UserService:
         return user
     
     @staticmethod
+    def get_user_by_username(db: Session, username: str) -> User:
+        """Get user by username"""
+        return db.query(User).filter(User.username == username).first()
+    
+    @staticmethod
     def get_user_by_email(db: Session, email: str) -> User:
         """Get user by email"""
         return db.query(User).filter(User.email == email).first()
@@ -54,9 +59,16 @@ class UserService:
         return db.query(User).filter(User.id == user_id).first()
     
     @staticmethod
-    def authenticate_user(db: Session, email: str, password: str) -> User:
-        """Authenticate user"""
-        user = UserService.get_user_by_email(db, email)
+    def authenticate_user(db: Session, email: str = None, username: str = None, password: str = None) -> User:
+        """Authenticate user by email or username"""
+        user = None
+        
+        # Try to find user by email or username
+        if email:
+            user = UserService.get_user_by_email(db, email)
+        elif username:
+            user = UserService.get_user_by_username(db, username)
+        
         if not user or not verify_password(password, user.hashed_password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
