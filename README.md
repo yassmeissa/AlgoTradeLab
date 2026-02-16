@@ -1,4 +1,4 @@
-# 🎯 AlgoTrade Lab - Plateforme de Trading Algorithmique
+# AlgoTrade Lab - Plateforme de Trading Algorithmique
 
 > Une plateforme **Full Stack** complète pour concevoir, tester et analyser des stratégies de trading algorithmique avec moteur de backtesting professionnel.
 
@@ -9,61 +9,61 @@
 
 ---
 
-## 📋 Table des Matières
+## Table des Matières
 
-- [Aperçu](#-aperçu)
-- [Architecture](#-architecture)
-- [Fonctionnalités](#-fonctionnalités)
-- [Installation](#-installation)
-- [Démarrage Rapide](#-démarrage-rapide)
-- [Documentation API](#-documentation-api)
-- [Configuration](#-configuration)
-- [Tests](#-tests)
-- [Déploiement](#-déploiement)
-- [Contribuer](#-contribuer)
-- [Support](#-support)
+- [Aperçu](#aperçu)
+- [Architecture](#architecture)
+- [Fonctionnalités](#fonctionnalités)
+- [Installation](#installation)
+- [Démarrage Rapide](#démarrage-rapide)
+- [Documentation API](#documentation-api)
+- [Configuration](#configuration)
+- [Tests](#tests)
+- [Déploiement](#déploiement)
+- [Contribuer](#contribuer)
+- [Support](#support)
 
 ---
 
-## 🎯 Aperçu
+## Aperçu
 
 **AlgoTrade Lab** est une plateforme complète permettant aux traders quantitatifs et développeurs de:
 
-✅ **Concevoir** des stratégies de trading algorithmique  
-✅ **Tester** sur des données historiques avec un moteur de backtesting optimisé  
-✅ **Analyser** les performances avec des métriques professionnelles  
-✅ **Valider** avec un module Machine Learning intégré  
-✅ **Visualiser** en temps réel via un dashboard interactif  
+[FEATURE] **Concevoir** des stratégies de trading algorithmique  
+[FEATURE] **Tester** sur des données historiques avec un moteur de backtesting optimisé  
+[FEATURE] **Analyser** les performances avec des métriques professionnelles  
+[FEATURE] **Valider** avec un module Machine Learning intégré  
+[FEATURE] **Visualiser** en temps réel via un dashboard interactif  
 
-### 💡 Cas d'Usage
+### Cas d'Usage
 
-- 📊 Backtesting de stratégies (MA, RSI, MACD, etc.)
-- 🤖 Prédictions ML (Logistic Regression, Random Forest, XGBoost)
-- 📈 Analyse de performance (Sharpe, Drawdown, Win Rate)
-- 🔄 Simulation temps réel avec WebSockets
-- 📱 Dashboard interactif Angular
+- [DATA] Backtesting de stratégies (MA, RSI, MACD, etc.)
+- [ML] Prédictions ML (Logistic Regression, Random Forest, XGBoost)
+- [CHART] Analyse de performance (Sharpe, Drawdown, Win Rate)
+- [SYNC] Simulation temps réel avec WebSockets
+- [UI] Dashboard interactif Angular
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Stack Technologique
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Frontend (Angular)                   │
-│          Dashboard interactif + Graphiques              │
-└─────────────────────────────────────────────────────────┘
-                          ↕ WebSockets
-┌─────────────────────────────────────────────────────────┐
-│                  Backend (FastAPI)                      │
-│  Swagger UI + Moteur Backtesting + ML Predictor         │
-└─────────────────────────────────────────────────────────┘
-                          ↕
-┌─────────────────────────────────────────────────────────┐
-│              PostgreSQL + Redis                         │
-│        Données Persistantes + Cache                     │
-└─────────────────────────────────────────────────────────┘
+[FRONTEND]
+|    Frontend (Angular)
+|    Dashboard interactif + Graphiques
+[/FRONTEND]
+          <-> WebSockets
+[BACKEND]
+|    Backend (FastAPI)
+|    Swagger UI + Moteur Backtesting + ML Predictor
+[/BACKEND]
+          <->
+[DATABASE]
+|    PostgreSQL + Redis
+|    Données Persistantes + Cache
+[/DATABASE]
 ```
 
 ### Structure des Dossiers
@@ -80,7 +80,7 @@ AlgoTradeLab/
 │   │   │       └── backtests.py     # Backtesting
 │   │   ├── backtesting/
 │   │   │   ├── engine/
-│   │   │   │   └── backtest.py      # 🔥 Moteur principal
+│   │   │   │   └── backtest.py      # [CORE] Moteur principal
 │   │   │   ├── indicators/
 │   │   │   │   └── indicators.py    # Indicateurs techniques
 │   │   │   └── strategies/
@@ -89,7 +89,7 @@ AlgoTradeLab/
 │   │   │       ├── rsi_strategy.py
 │   │   │       └── macd_strategy.py
 │   │   ├── ml/
-│   │   │   └── ml_predictor.py      # 🤖 Module ML
+│   │   │   └── ml_predictor.py      # [ML] Module ML
 │   │   ├── models/                  # ORM SQLAlchemy
 │   │   ├── schemas/                 # Pydantic models
 │   │   ├── services/                # Logique métier
@@ -104,18 +104,18 @@ AlgoTradeLab/
 │   └── (À créer - Dashboard)
 │
 ├── docs/                             # Documentation
-│   ├── INDEX.md                     # 📍 Navigation complète
+│   ├── INDEX.md                     # [NAV] Navigation complète
 │   ├── SWAGGER_ARCHITECTURE.md      # Architecture Swagger
 │   ├── API_SWAGGER_GUIDE.md         # Référence API
 │   └── ... (15+ fichiers)
 │
-└── README.md                         # 📄 Ce fichier
+└── README.md                         # [DOC] Ce fichier
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
-### 1. 🔐 Authentification & Sécurité
+### 1. [LOCK] Authentification & Sécurité
 
 ```python
 # Inscription / Connexion
@@ -128,7 +128,7 @@ POST /api/auth/login
 - CORS configuré
 ```
 
-### 2. 🎯 Gestion des Stratégies
+### 2. [TARGET] Gestion des Stratégies
 
 ```python
 # CRUD complet
@@ -144,16 +144,16 @@ DELETE /api/strategies/{id}      # Supprimer
 - MACD (Moving Average Convergence Divergence)
 ```
 
-### 3. 📊 Moteur de Backtesting
+### 3. [CHART] Moteur de Backtesting
 
 **Améliorations v2.1.0:**
 
 | Problème | Solution | Impact |
 |----------|----------|--------|
-| Equity incorrecte | Mark-to-market calculation | ✅ Résolu |
+| Equity incorrecte | Mark-to-market calculation | [CHECK] Résolu |
 | Signaux continus | Crossover-only filtering | 83% moins de trades |
 | Pas de validation | Parameter validation | Win rate +64% |
-| Div by zero | Division protection | ✅ Sécurisé |
+| Div by zero | Division protection | [CHECK] Sécurisé |
 
 ```python
 POST /api/backtests/run
@@ -169,7 +169,7 @@ DELETE /api/backtests/{id}
 - Profit Factor (ratio profit/loss)
 ```
 
-### 4. 🔧 Indicateurs Techniques
+### 4. [TOOLS] Indicateurs Techniques
 
 ```python
 # Moyennes Mobiles
@@ -189,7 +189,7 @@ DELETE /api/backtests/{id}
 - ADX (Average Directional Index)
 ```
 
-### 5. 🤖 Machine Learning
+### 5. [ML] Machine Learning
 
 ```python
 # Modèles supportés
@@ -203,7 +203,7 @@ DELETE /api/backtests/{id}
 - Métriques de performance comparatives
 ```
 
-### 6. 📡 Communication Temps Réel
+### 6. [SIGNAL] Communication Temps Réel
 
 ```python
 # WebSockets
@@ -212,12 +212,12 @@ DELETE /api/backtests/{id}
 - Notification des trades exécutés
 ```
 
-### 7. 📚 Documentation Interactive
+### 7. [BOOK] Documentation Interactive
 
 ```
-🎯 Swagger UI : http://localhost:8000/docs
-📖 ReDoc : http://localhost:8000/redoc
-🔗 OpenAPI Schema : http://localhost:8000/openapi.json
+[TARGET] Swagger UI : http://localhost:8000/docs
+[DOC] ReDoc : http://localhost:8000/redoc
+[LINK] OpenAPI Schema : http://localhost:8000/openapi.json
 
 - 15+ endpoints documentés
 - Exemples de requêtes/réponses
@@ -227,7 +227,7 @@ DELETE /api/backtests/{id}
 
 ---
 
-## 🚀 Installation
+## [ROCKET] Installation
 
 ### Prérequis
 
@@ -285,7 +285,7 @@ uvicorn main:app --reload
 
 ---
 
-## ⚡ Démarrage Rapide
+## [SPEED] Démarrage Rapide
 
 ### 1. Lancer le Serveur
 
@@ -318,7 +318,7 @@ http://localhost:8000/docs
 }
 
 # 3. Copier le token reçu
-# 4. Dans Swagger: Cliquer 🔓 Authorize
+# 4. Dans Swagger: Cliquer [LOCK] Authorize
 # 5. Coller: Bearer <votre-token>
 ```
 
@@ -366,17 +366,17 @@ Réponse:
 
 ---
 
-## 📖 Documentation API
+## [BOOK] Documentation API
 
 ### Accès aux Documentations
 
 | Format | URL | Utilité |
 |--------|-----|---------|
-| **Swagger UI** | http://localhost:8000/docs | 🎯 Test interactif |
-| **ReDoc** | http://localhost:8000/redoc | 📖 Lecture facile |
-| **OpenAPI JSON** | http://localhost:8000/openapi.json | 🔗 Intégration |
-| **INDEX.md** | `/INDEX.md` | 📍 Navigation complète |
-| **API_SWAGGER_GUIDE.md** | `/backend/API_SWAGGER_GUIDE.md` | 📚 Référence détaillée |
+| **Swagger UI** | http://localhost:8000/docs | [TARGET] Test interactif |
+| **ReDoc** | http://localhost:8000/redoc | [DOC] Lecture facile |
+| **OpenAPI JSON** | http://localhost:8000/openapi.json | [LINK] Intégration |
+| **INDEX.md** | `/INDEX.md` | [NAV] Navigation complète |
+| **API_SWAGGER_GUIDE.md** | `/backend/API_SWAGGER_GUIDE.md` | [BOOK] Référence détaillée |
 
 ### Endpoints Principaux
 
@@ -419,7 +419,7 @@ GET    /api/indicators/macd        Moving Average Convergence Divergence
 
 ---
 
-## ⚙️ Configuration
+## [CONFIG] Configuration
 
 ### Fichier .env
 
@@ -460,7 +460,7 @@ export API_PORT=8000
 
 ---
 
-## 🧪 Tests
+## [TEST] Tests
 
 ### Lancer les Tests
 
@@ -483,11 +483,11 @@ pytest -v
 ### Couverture de Tests
 
 - **13 test cases** couvrant:
-  - ✅ Moteur de backtesting
-  - ✅ Calcul des métriques
-  - ✅ Indicateurs techniques
-  - ✅ Validation des stratégies
-  - ✅ Cas limites (edge cases)
+  - [CHECK] Moteur de backtesting
+  - [CHECK] Calcul des métriques
+  - [CHECK] Indicateurs techniques
+  - [CHECK] Validation des stratégies
+  - [CHECK] Cas limites (edge cases)
 
 - **Coverage: 85%** des chemins critiques
 
@@ -503,7 +503,7 @@ curl http://localhost:8000/openapi.json | python -m json.tool
 
 ---
 
-## 📦 Déploiement
+## [BOX] Déploiement
 
 ### Déploiement Local (Développement)
 
@@ -560,7 +560,7 @@ curl https://your-domain.com/api/health
 
 ---
 
-## 🤝 Contribuer
+## [TEAM] Contribuer
 
 Les contributions sont les bienvenues! Veuillez consulter [CONTRIBUTING.md](./backend/CONTRIBUTING.md) pour les guidelines.
 
@@ -574,14 +574,14 @@ Les contributions sont les bienvenues! Veuillez consulter [CONTRIBUTING.md](./ba
 
 ### Lignes Directrices
 
-- ✅ Écrire des tests pour les nouvelles features
-- ✅ Respecter le style de code existant
-- ✅ Mettre à jour la documentation
-- ✅ Faire des commits atomiques avec messages clairs
+- [CHECK] Écrire des tests pour les nouvelles features
+- [CHECK] Respecter le style de code existant
+- [CHECK] Mettre à jour la documentation
+- [CHECK] Faire des commits atomiques avec messages clairs
 
 ---
 
-## 📊 Statistiques du Projet
+## [CHART] Statistiques du Projet
 
 ### Couverture
 
@@ -606,11 +606,11 @@ Response Time (avg):      <100ms
 
 ---
 
-## 📚 Ressources & Documentation
+## [BOOK] Ressources & Documentation
 
 ### Guide de Navigation
 
-- **[INDEX.md](./INDEX.md)** - 📍 Point de départ pour la documentation
+- **[INDEX.md](./INDEX.md)** - [NAV] Point de départ pour la documentation
 - **[SWAGGER_ARCHITECTURE.md](./SWAGGER_ARCHITECTURE.md)** - Architecture Swagger/OpenAPI
 - **[API_SWAGGER_GUIDE.md](./backend/API_SWAGGER_GUIDE.md)** - Référence API complète
 - **[DEPLOYMENT_GUIDE.md](./backend/DEPLOYMENT_GUIDE.md)** - Guide de déploiement
@@ -633,7 +633,7 @@ Response Time (avg):      <100ms
 
 ---
 
-## ⚠️ Avertissements
+## [WARN] Avertissements
 
 ### Disclaimer Trading
 
@@ -646,13 +646,13 @@ Response Time (avg):      <100ms
 
 ---
 
-## 📝 Licence
+## [PAGE] Licence
 
 Ce projet est sous licence **MIT**. Voir [LICENSE](LICENSE) pour les détails.
 
 ---
 
-## 💬 Support & Contact
+## [CHAT] Support & Contact
 
 ### Obtenir de l'Aide
 
@@ -670,7 +670,7 @@ Créer une issue avec:
 
 ---
 
-## 🙏 Remerciements
+## [THANKS] Remerciements
 
 Merci à la communauté open source pour:
 - FastAPI
@@ -682,7 +682,7 @@ Merci à la communauté open source pour:
 
 ---
 
-## 📈 Roadmap
+## [CHART] Roadmap
 
 ### v2.2.0 (Prochaine)
 - [ ] Frontend Angular complet
@@ -702,7 +702,7 @@ Merci à la communauté open source pour:
 
 ---
 
-## 📞 Contact
+## [PHONE] Contact
 
 **Auteur**: [yassmeissa](https://github.com/yassmeissa)  
 **Repository**: https://github.com/yassmeissa/AlgoTradeLab  
@@ -712,12 +712,11 @@ Merci à la communauté open source pour:
 
 <div align="center">
 
-**[⬆ Retour en haut](#-algotrade-lab---plateforme-de-trading-algorithmique)**
+**[UP] Retour en haut**
 
-Fait avec ❤️ pour la communauté des traders quantitatifs
+Fait avec [HEART] pour la communauté des traders quantitatifs
 
 ![Python](https://img.shields.io/badge/Made%20with-Python-blue)
 ![FastAPI](https://img.shields.io/badge/Powered%20by-FastAPI-green)
-![Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red)
 
 </div>

@@ -41,7 +41,7 @@ def validate_engine_initialization() -> bool:
         assert engine2.commission == 0.002
         assert engine2.slippage == 0.001
         
-        print("  ✅ Engine initialization working correctly")
+        print("  [PASS] Engine initialization working correctly")
         return True
     except Exception as e:
         print(f"  ❌ Failed: {e}")
@@ -69,12 +69,12 @@ def validate_signal_generation() -> bool:
         # Check no NaN in signal (except first few)
         assert signals["signal"].iloc[10:].notna().sum() > 0
         
-        print("  ✅ Signal generation working correctly")
+        print("  [PASS] Signal generation working correctly")
         print(f"     - Generated {len(signals)} signals")
         print(f"     - Signal distribution: {signals['signal'].value_counts().to_dict()}")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -105,7 +105,7 @@ def validate_backtest_execution() -> bool:
         assert details['equity_curve'][0] == 10000  # Initial capital
         assert all(eq >= 0 for eq in details['equity_curve']), "Negative equity detected"
         
-        print("  ✅ Backtest execution working correctly")
+        print("  [PASS] Backtest execution working correctly")
         print(f"     - ROI: {metrics.roi:.2f}%")
         print(f"     - Sharpe Ratio: {metrics.sharpe_ratio:.2f}")
         print(f"     - Max Drawdown: {metrics.max_drawdown:.2f}%")
@@ -113,7 +113,7 @@ def validate_backtest_execution() -> bool:
         print(f"     - Win Rate: {metrics.win_rate:.2f}%")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -138,13 +138,13 @@ def validate_equity_curve_integrity() -> bool:
         assert all(e >= 0 for e in equity), "Negative equity found"
         assert abs(metrics.total_return - (equity[-1] - 10000)) < 1, "ROI mismatch"
         
-        print("  ✅ Equity curve integrity validated")
+        print("  [PASS] Equity curve integrity validated")
         print(f"     - Start: ${equity[0]:.2f}")
         print(f"     - End: ${equity[-1]:.2f}")
         print(f"     - Return: ${metrics.total_return:.2f}")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         return False
 
 
@@ -172,13 +172,13 @@ def validate_commission_impact() -> bool:
             "Commission should reduce returns"
         
         reduction = metrics_no_comm.total_return - metrics_with_comm.total_return
-        print("  ✅ Commission impact validated")
+        print("  [PASS] Commission impact validated")
         print(f"     - No commission ROI: {metrics_no_comm.roi:.2f}%")
         print(f"     - With commission ROI: {metrics_with_comm.roi:.2f}%")
         print(f"     - Reduction: ${reduction:.2f}")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -204,13 +204,13 @@ def validate_rsi_strategy() -> bool:
         assert metrics.total_trades >= 0
         assert 0 <= metrics.win_rate <= 100
         
-        print("  ✅ RSI strategy working correctly")
+        print("  [PASS] RSI strategy working correctly")
         print(f"     - ROI: {metrics.roi:.2f}%")
         print(f"     - Total Trades: {metrics.total_trades}")
         print(f"     - Win Rate: {metrics.win_rate:.2f}%")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -238,12 +238,12 @@ def validate_slippage() -> bool:
         # Slippage should reduce returns
         assert metrics1.total_return >= metrics2.total_return
         
-        print("  ✅ Slippage impact validated")
+        print("  [PASS] Slippage impact validated")
         print(f"     - No slippage ROI: {metrics1.roi:.2f}%")
         print(f"     - With slippage ROI: {metrics2.roi:.2f}%")
         return True
     except Exception as e:
-        print(f"  ❌ Failed: {e}")
+        print(f"  [FAIL] Failed: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -252,7 +252,7 @@ def validate_slippage() -> bool:
 def main():
     """Run all validation tests"""
     print("=" * 60)
-    print("🧪 AlgoTrade Lab - Backtest Engine Validation")
+    print("[TEST SUITE] AlgoTrade Lab - Backtest Engine Validation")
     print("=" * 60)
     
     tests = [
@@ -271,19 +271,19 @@ def main():
             result = test_func()
             results.append((name, result))
         except Exception as e:
-            print(f"\n❌ {name} - Unexpected error: {e}")
+            print(f"\n[ERROR] {name} - Unexpected error: {e}")
             results.append((name, False))
     
     # Summary
     print("\n" + "=" * 60)
-    print("📊 SUMMARY")
+    print("[RESULTS] SUMMARY")
     print("=" * 60)
     
     passed = sum(1 for _, result in results if result)
     total = len(results)
     
     for name, result in results:
-        status = "✅ PASS" if result else "❌ FAIL"
+        status = "[PASS]" if result else "[FAIL]"
         print(f"{status} - {name}")
     
     print(f"\n{'=' * 60}")
