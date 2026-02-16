@@ -1,0 +1,313 @@
+"""
+Installation et Configuration de Swagger/OpenAPI pour FastAPI
+
+Ce fichier explique comment configurer Swagger avec FastAPI
+"""
+
+# ============================================================================
+# 1. INSTALLATION DES DÉPENDANCES
+# ============================================================================
+
+"""
+Requirements.txt doit contenir:
+
+fastapi==0.104.1           # FastAPI framework
+uvicorn[standard]==0.24.0  # ASGI server
+pydantic==2.5.0           # Data validation
+sqlalchemy==2.0.23        # ORM
+python-jose[cryptography]==3.3.0  # JWT
+passlib[bcrypt]==1.7.4    # Password hashing
+
+Optional (for enhanced Swagger):
+python-multipart==0.0.6   # Form data handling
+"""
+
+# ============================================================================
+# 2. CONFIGURATION DE SWAGGER DANS main.py
+# ============================================================================
+
+example_main_py = """
+from fastapi import FastAPI
+from fastapi.openapi.utils import get_openapi
+
+app = FastAPI(
+    title="AlgoTrade Lab API",
+    version="2.1.0",
+    description="Algorithmic Trading Platform",
+    docs_url="/docs",           # Swagger UI
+    redoc_url="/redoc",         # ReDoc
+    openapi_url="/openapi.json" # OpenAPI schema
+)
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    
+    openapi_schema = get_openapi(
+        title="AlgoTrade Lab API",
+        version="2.1.0",
+        description="Full API documentation",
+        routes=app.routes,
+    )
+    
+    # Customizations
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://example.com/logo.png"
+    }
+    
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
+"""
+
+# ============================================================================
+# 3. DOCUMENTER LES ENDPOINTS AVEC SWAGGER
+# ============================================================================
+
+example_endpoint = """
+from fastapi import APIRouter
+from pydantic import BaseModel, Field
+
+router = APIRouter()
+
+class StrategyRequest(BaseModel):
+    '''Strategy creation request'''
+    name: str = Field(..., description="Strategy name", min_length=1)
+    type: str = Field(..., description="Strategy type: mac, rsi, macd")
+    parameters: dict = Field(..., description="Strategy parameters")
+
+@router.post(
+    "/strategies",
+    summary="Create Strategy",
+    description="Create a new trading strategy",
+    tags=["Strategies"],
+    responses={
+        201: {"description": "Strategy created successfully"},
+        400: {"description": "Invalid parameters"},
+        401: {"description": "Unauthorized"}
+    }
+)
+def create_strategy(
+    request: StrategyRequest,
+    token: str = Header(..., description="JWT authentication token")
+):
+    '''Create a new strategy for backtesting'''
+    # Implementation here
+    pass
+"""
+
+# ============================================================================
+# 4. EXEMPLES DE REQUÊTES/RÉPONSES
+# ============================================================================
+
+example_with_examples = """
+from pydantic import BaseModel, Field
+from typing import Optional
+
+class BacktestRequest(BaseModel):
+    strategy_id: int = Field(
+        ...,
+        description="ID of strategy to backtest",
+        example=1
+    )
+    symbol: str = Field(
+        ...,
+        description="Stock symbol",
+        example="AAPL"
+    )
+    start_date: str = Field(
+        ...,
+        description="Start date YYYY-MM-DD",
+        example="2023-01-01"
+    )
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "strategy_id": 1,
+                "symbol": "AAPL",
+                "start_date": "2023-01-01",
+                "end_date": "2023-12-31",
+                "initial_capital": 10000
+            }
+        }
+"""
+
+# ============================================================================
+# 5. TAGS ET GROUPEMENT
+# ============================================================================
+
+example_tags = """
+from fastapi import FastAPI
+
+app = FastAPI(
+    openapi_tags=[
+        {
+            "name": "Authentication",
+            "description": "User authentication endpoints"
+        },
+        {
+            "name": "Strategies", 
+            "description": "Strategy management endpoints"
+        },
+        {
+            "name": "Backtests",
+            "description": "Backtest execution endpoints"
+        }
+    ]
+)
+
+@app.post("/auth/login", tags=["Authentication"])
+def login():
+    pass
+
+@app.post("/strategies", tags=["Strategies"])
+def create_strategy():
+    pass
+"""
+
+# ============================================================================
+# 6. UTILISATION DE DEPENDENCIES DANS SWAGGER
+# ============================================================================
+
+example_dependencies = """
+from fastapi import Depends, Header, HTTPException
+
+async def verify_token(authorization: str = Header(...)):
+    '''Verify JWT token'''
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid token")
+    return authorization.split(" ")[1]
+
+@app.get("/protected")
+def protected_endpoint(token: str = Depends(verify_token)):
+    '''This endpoint requires authentication'''
+    return {"status": "ok", "token": token}
+"""
+
+# ============================================================================
+# 7. ACCÉDER À SWAGGER
+# ============================================================================
+
+access_info = """
+Une fois le serveur démarré:
+
+1. Swagger UI (Interactive):
+   http://localhost:8000/docs
+
+2. ReDoc (Alternative UI):
+   http://localhost:8000/redoc
+
+3. OpenAPI JSON Schema:
+   http://localhost:8000/openapi.json
+
+4. Test dans Swagger:
+   - Cliquer sur l'endpoint
+   - Cliquer "Try it out"
+   - Remplir les paramètres
+   - Cliquer "Execute"
+   - Voir la réponse
+"""
+
+# ============================================================================
+# 8. COMMANDES UTILES
+# ============================================================================
+
+cli_commands = """
+# Démarrer le serveur avec Swagger
+python run.py
+
+# Ou avec Uvicorn directement
+uvicorn main:app --reload
+
+# Production (multiple workers)
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+
+# Générer le schéma OpenAPI
+curl http://localhost:8000/openapi.json > openapi.json
+
+# Valider le schéma OpenAPI
+python -m openapi_spec_validator openapi.json
+"""
+
+# ============================================================================
+# 9. EXPORTER SWAGGER POUR D'AUTRES OUTILS
+# ============================================================================
+
+export_info = """
+# Exporter vers d'autres outils
+
+1. **Postman:**
+   - Aller à: http://localhost:8000/openapi.json
+   - Importer dans Postman
+   - Utiliser la collection auto-générée
+
+2. **Swagger Editor:**
+   - Aller à: https://editor.swagger.io/
+   - File > Import URL
+   - Entrer: http://localhost:8000/openapi.json
+
+3. **Insomnia:**
+   - File > Import > URL
+   - Entrer: http://localhost:8000/openapi.json
+
+4. **Rédobc (Auto-generated docs):**
+   - http://localhost:8000/redoc
+"""
+
+# ============================================================================
+# 10. ADVANCED: CUSTOM SWAGGER UI
+# ============================================================================
+
+advanced_swagger = """
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.openapi.docs import (
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+    get_redoc_html
+)
+
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url="/openapi.json")
+
+@app.get("/docs", include_in_schema=False)
+async def swagger_ui():
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title="AlgoTrade Lab API - Swagger UI",
+        oauth2_redirect_url="/oauth2-redirect",
+        swagger_js_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui.js",
+        swagger_css_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3/swagger-ui.css",
+    )
+
+@app.get("/redoc", include_in_schema=False)
+async def redoc_html():
+    return get_redoc_html(
+        openapi_url=app.openapi_url,
+        title="AlgoTrade Lab API - ReDoc"
+    )
+"""
+
+# ============================================================================
+# RÉSUMÉ
+# ============================================================================
+
+summary = """
+✅ Swagger avec FastAPI est très facile:
+
+1. Installer: pip install fastapi uvicorn
+2. Créer endpoints avec type hints
+3. Ajouter docstrings et Field() descriptions
+4. Démarrer: python run.py
+5. Accéder: http://localhost:8000/docs
+
+FastAPI génère automatiquement:
+- Swagger UI interactif
+- ReDoc documentations
+- OpenAPI JSON schema
+- Validation automatique
+- Exemples de requêtes/réponses
+
+Aucune configuration supplémentaire nécessaire!
+"""

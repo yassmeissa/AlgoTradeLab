@@ -1,0 +1,34 @@
+AlgoTrade Lab
+Plateforme de Simulation et d’Analyse de Trading Algorithmique
+1. Objectif du Projet
+AlgoTrade Lab est une plateforme Full Stack permettant de concevoir, tester et analyser des
+stratégies de trading algorithmique sur des données historiques. Le projet vise à reproduire un
+environnement professionnel similaire à celui utilisé dans les firmes de trading quantitatives.
+2. Architecture Technique
+• Backend : Python (FastAPI) avec moteur de backtesting optimisé.
+• Base de données : PostgreSQL pour stockage des utilisateurs, stratégies et résultats.
+• Frontend : Angular (TypeScript) avec dashboard interactif.
+• Communication temps réel : WebSockets.
+• Conteneurisation : Docker et Docker Compose.
+3. Backtesting Engine
+Le moteur de backtesting constitue le cœur du projet. Il permet de simuler des stratégies telles que
+Moving Average Crossover, RSI ou MACD. Il gère les positions, applique les frais de transaction et
+calcule les performances.
+4. Indicateurs et Métriques
+• ROI (Return on Investment)
+• Sharpe Ratio
+• Maximum Drawdown
+• Win Rate
+• Profit Factor
+5. Module Machine Learning
+Le projet intègre un module IA capable de prédire des signaux BUY / SELL à partir d’indicateurs
+techniques. Les modèles incluent Logistic Regression, Random Forest et XGBoost. Une
+comparaison entre stratégie classique et stratégie ML est proposée.
+6. Interface Utilisateur (Angular)
+Le dashboard Angular permet la visualisation en temps réel des graphiques en chandeliers, des
+signaux de trading et des performances cumulées. L’architecture frontend est organisée en
+modules feature-based pour garantir scalabilité et maintenabilité.
+7. Valeur Ajoutée du Projet
+AlgoTrade Lab démontre des compétences avancées en architecture logicielle, optimisation des
+performances, programmation orientée objet, analyse quantitative et intégration Machine Learning.
+Il reflète un niveau d’ingénierie adapté aux environnements fintech et trading algorithmique.
